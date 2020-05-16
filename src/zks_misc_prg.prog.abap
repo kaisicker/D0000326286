@@ -11,44 +11,47 @@ report zks_misc_prg.
 *************************
 * Consume OData-Service *
 *************************
-parameters input type string lower case.
-*lv_service = 'https://lb-fd0.sap.comp.db.de/sap/opu/odata/sap/ZKS_TEST_DD_CDS/zks_test_dd?$format=json&$top=1'.
-*data(lv_service) = conv string( 'https://lb-fd0.sap.comp.db.de/sap/opu/odata/sap/ZKS_TEST_DD_CDS/zks_test_dd(%27100112%27)/gjahr/$value' ).
-
-
-*** Use CL_HTTP_CLIENT to consume the OData service using the method "create_by_url"
-cl_http_client=>create_by_url(
-     exporting
-       url                = input
-*       url                = lv_service
-     importing
-       client             = data(lo_http_client)
-).
-
-*** Call the following method to autheticate the user/password and client for the remote connection.
-lo_http_client->authenticate(
-    client   = '903'
-    username = 'D0000326286'
-    password = 'Btgzhn77242!'
-).
-
-*** Send the request
-lo_http_client->send( ).
-
-*** Receive the response
-lo_http_client->receive( ).
-
-*** Read and display the result
-cl_demo_output=>display_json( lo_http_client->response->get_cdata( ) ).
-
-
-at selection-screen output.
-  loop at screen.
-    if screen-name = 'INPUT'.
-      screen-invisible = 1.
-      modify screen.
-    endif.
-  endloop.
+*data(lv_service) = 'https://lb-fd0.sap.comp.db.de/sap/opu/odata/sap/ZKS_TEST_DD_CDS/zks_test_dd?$format=json&$top=1'.
+*data(lv_service_1) = conv string( 'https://lb-fd0.sap.comp.db.de/sap/opu/odata/sap/ZKS_TEST_DD_CDS/zks_test_dd(%27100112%27)/gjahr/$value' ).
+*
+*
+*parameters user     type string default 'D0000326286'.
+*parameters password type string.
+*parameters input    type string default 'https://lb-fd0.sap.comp.db.de/sap/opu/odata/sap/ZKS_TEST_DD_CDS/zks_test_dd?$format=json&$top=1' lower case.
+*
+*
+**** Use CL_HTTP_CLIENT to consume the OData service using the method "create_by_url"
+*cl_http_client=>create_by_url(
+*     exporting
+*       url                = input
+*     importing
+*       client             = data(lo_http_client)
+*).
+*
+**** Call the following method to authenticate the user/password and client for the remote connection.
+*lo_http_client->authenticate(
+*    client   = '903'
+*    username = user
+*    password = password
+*).
+*
+**** Send the request
+*lo_http_client->send( ).
+*
+**** Receive the response
+*lo_http_client->receive( ).
+*
+**** Read and display the result
+*cl_demo_output=>display_json( lo_http_client->response->get_cdata( ) ).
+*
+*
+*at selection-screen output.
+*  loop at screen.
+*    if screen-name = 'PASSWORD'.
+*      screen-invisible = 1.
+*      modify screen.
+*    endif.
+*  endloop.
 
 
 
